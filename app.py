@@ -92,21 +92,21 @@ if paginas == 'Consultar':
 
     with col1:
         with st.form(key='query_form'):
-            raw_code = st.text_area("SQL Code Here")
+            raw_code = st.text_area("Insira o código SQL aqui",
+             value = "SELECT * FROM bd_horas"
+            
+            )
+            
             submit_code = st.form_submit_button("Execute")
         
     # Results Layouts
     with col2:
         if submit_code:
-            st.info("Query Submitted")
+            st.info("Query Enviada!")
+            st.write("Você pode copiar o código abaixo, se desejar.")
             st.code(raw_code)
-
-    # Results 
-    query_results = HoursController.consultar(query = raw_code)
-   
-
-
-    query_df = pd.DataFrame(query_results)
+            query_results = HoursController.consultar(query = raw_code)
+            query_df = pd.DataFrame(query_results)
     
     hoursList = []
 
@@ -123,5 +123,14 @@ if paginas == 'Consultar':
         columns=['employee_name', 'cc_number', 'mon', 'mon_h', 'tue', 'tue_h', 'wed', 'wed_h', 'thu', 'thu_h', 'fri', 'fri_h'  
         ]
     )
-
+    st.header("Resultado")
     st.dataframe(query_df)
+    
+    csv = query_df.to_csv().encode('utf-8')
+    st.download_button(
+    "Baixar Tabela",
+    csv,
+    "controle_de_horas_mdgeo.csv",
+    "text/csv",
+    key="download-csv"
+    )
