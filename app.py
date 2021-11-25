@@ -1,7 +1,6 @@
 import streamlit as st 
 import pandas as pd 
 import numpy as np 
-import psycopg2
 from datetime import date, datetime, timedelta
 import controllers.HoursController as HoursController
 import models.Hours as hours 
